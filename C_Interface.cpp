@@ -1,28 +1,27 @@
 #include <bits/stdc++.h>
 
-#define int int64_t
-
-#define Matrix std::vector<std::vector<int>>
-
 constexpr int MODULUS = 1000000007;
 
-Matrix multiplyMatrix(Matrix matrix1, Matrix matrix2);
+struct inputData{
+    int n, m, k;
+    std::vector<std::vector<int>> matrix;
+};
 
-Matrix powerMatrix(Matrix matrix, int exponent);
+std::vector<std::vector<int>> multiplyMatrix(
+    const std::vector<std::vector<int>> matrixLeft, 
+    const std::vector<std::vector<int>> matrixRight);
 
-int getNumberOfWays(Matrix matrix, int k);
+std::vector<std::vector<int>> powerMatrix(
+    const std::vector<std::vector<int>> matrix, 
+    const int exponent);
+
+int getNumberOfWays(std::vector<std::vector<int>> matrix, int k);
+
+inputData inputRead(std::istream& in);
 
 signed main() {
-    int n, m, k;
-    std::cin >> n >> m >> k;
-    Matrix matrix(n, std::vector<int>(n));
-
-    for (int i = 0; i < m; i++) {
-        int a, b;
-        std::cin >> a >> b;
-        matrix[a-1][b-1]++;
-    }
-    std::cout << getNumberOfWays(matrix, k) << '\n';
+    inputData input = inputRead(std::cin);
+    std::cout << getNumberOfWays(input.matrix, input.k);
 
     return 0;
 }
