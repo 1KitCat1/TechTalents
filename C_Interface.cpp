@@ -24,8 +24,8 @@ InputData inputRead(std::istream& in);
 void writeAnswer(std::ostream& out, int64_t result);
 
 signed main() {
-    InputData input = inputRead(std::cin);
-    int64_t result = getNumberOfWays(input.matrix, input.amountOfSteps);
+    const InputData input = inputRead(std::cin);
+    const int64_t result = getNumberOfWays(input.matrix, input.amountOfSteps);
     writeAnswer(std::cout, result);
 
     return 0;
