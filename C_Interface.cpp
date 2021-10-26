@@ -16,8 +16,8 @@ std::vector<std::vector<int64_t>> powerMatrix(
     const int64_t exponent);
 
 int64_t getNumberOfWays(
-	const std::vector<std::vector<int64_t>>& matrix,
-	const int64_t amountOfSteps);
+    const std::vector<std::vector<int64_t>>& matrix,
+    const int64_t amountOfSteps);
 
 InputData inputRead(std::istream& in);
 
