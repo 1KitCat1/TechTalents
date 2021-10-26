@@ -1,21 +1,21 @@
 #include <bits/stdc++.h>
 
-constexpr int MODULUS = 1000000007;
+constexpr int64_t MODULUS = 1000000007;
 
 struct inputData{
-    int n, m, k;
-    std::vector<std::vector<int>> matrix;
+    int64_t n, m, k;
+    std::vector<std::vector<int64_t>> matrix;
 };
 
-std::vector<std::vector<int>> multiplyMatrix(
-    const std::vector<std::vector<int>> matrixLeft, 
-    const std::vector<std::vector<int>> matrixRight);
+std::vector<std::vector<int64_t>> multiplyMatrix(
+    const std::vector<std::vector<int64_t>> matrixLeft, 
+    const std::vector<std::vector<int64_t>> matrixRight);
 
-std::vector<std::vector<int>> powerMatrix(
-    const std::vector<std::vector<int>> matrix, 
-    const int exponent);
+std::vector<std::vector<int64_t>> powerMatrix(
+    const std::vector<std::vector<int64_t>> matrix, 
+    const int64_t exponent);
 
-int getNumberOfWays(std::vector<std::vector<int>> matrix, int k);
+int64_t getNumberOfWays(std::vector<std::vector<int64_t>> matrix, int64_t k);
 
 inputData inputRead(std::istream& in);
 
