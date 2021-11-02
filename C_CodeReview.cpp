@@ -55,7 +55,7 @@ std::vector<std::vector<int64_t>> multiplyMatrices(
             "Given matrices cannot be multiplied due to their size");
     }
 
-    std::vector<std::vector<int64_t>> answ(matrixLeft.size(), 
+    std::vector<std::vector<int64_t>> answ(matrixLeft.size(),
         std::vector<int64_t>(matrixRight[0].size(), 0));
 
 
@@ -86,6 +86,11 @@ std::vector<std::vector<int64_t>> powerMatrix(
         }
     }
 
+    if (exponent < 0) {
+        throw std::invalid_argument(
+            "This method is NOT designed to power matrix into negative exponent");
+    }
+
 
     if (exponent == 0) {
         int n = matrix.size();
@@ -104,7 +109,8 @@ std::vector<std::vector<int64_t>> powerMatrix(
         answerMatrix = powerMatrix(matrix, exponent/2);
         return multiplyMatrices(answerMatrix, answerMatrix);
     }else {
-        answerMatrix = multiplyMatrices(powerMatrix(matrix, exponent-1), matrix);
+        answerMatrix = multiplyMatrices(
+            powerMatrix(matrix, exponent-1), matrix);
     }
     return answerMatrix;
 }
@@ -130,10 +136,10 @@ signed main() {
     std::ios_base::sync_with_stdio(false);
     std::cin.tie(nullptr);
     std::cout.tie(nullptr);
-    
+
     const InputData input = inputRead(std::cin);
 
-    const int64_t result = 
+    const int64_t result =
             getNumberOfWays(input.matrix, input.amountOfSteps);
     writeAnswer(std::cout, result);
 
