@@ -20,7 +20,7 @@ InputData inputRead(std::istream& in){
         int from;
         int to;
         in >> from >> to;
-        input.matrix[from][to]++;
+        input.matrix[from-1][to-1]++;
     }
     return input;
 }
