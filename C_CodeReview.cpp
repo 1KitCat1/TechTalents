@@ -57,23 +57,23 @@ std::vector<std::vector<int64_t>> multiplyMatrices(
             "Given matrices cannot be multiplied due to their size");
     }
 
-    std::vector<std::vector<int64_t>> answ(matrixLeft.size(),
+    std::vector<std::vector<int64_t>> answerMatrix(matrixLeft.size(),
         std::vector<int64_t>(matrixRight[0].size(), 0));
 
     for (int i = 0; i < matrixLeft.size(); i++) {
         for (int j = 0; j < matrixRight[0].size(); j++) {
             for (int k = 0; k < matrixLeft[0].size(); k++) {
-                answ[i][j] += (matrixLeft[i][k]*matrixRight[k][j]) % MODULUS;
-                answ[i][j] %= MODULUS;
+                answerMatrix[i][j] += (matrixLeft[i][k] * matrixRight[k][j]) % MODULUS;
+                answerMatrix[i][j] %= MODULUS;
             }
         }
     }
-    return answ;
+    return answerMatrix;
 }
 
 std::vector<std::vector<int64_t>> powerMatrix(
     const std::vector<std::vector<int64_t>>& matrix,
-    const int64_t exponent){
+    const int64_t exponent) {
 
     if (matrix.size() == 0) {
         throw std::invalid_argument("Matrix is empty");
@@ -93,24 +93,24 @@ std::vector<std::vector<int64_t>> powerMatrix(
 
 
     if (exponent == 0) {
-        int n = matrix.size();
-        std::vector<std::vector<int64_t>> matrixE(
+        std::vector<std::vector<int64_t>> matrixIdentity(
             matrix.size(), std::vector<int64_t>(matrix.size(), 0));
 
         for (int i = 0; i < matrix.size(); i++) {
-            matrixE[i][i] = 1;
+            matrixIdentity[i][i] = 1;
         }
 
-        return matrixE;
+        return matrixIdentity;
     }
 
     std::vector<std::vector<int64_t>> answerMatrix;
     if (exponent % 2 == 0) {
         answerMatrix = powerMatrix(matrix, exponent/2);
-        return multiplyMatrices(answerMatrix, answerMatrix);
-    }else {
-        answerMatrix = multiplyMatrices(
-            powerMatrix(matrix, exponent-1), matrix);
+
+        answerMatrix = multiplyMatrices(answerMatrix, answerMatrix);
+    } else {
+        answerMatrix = powerMatrix(matrix, exponent-1);
+        answerMatrix = multiplyMatrices(answerMatrix, matrix);
     }
     return answerMatrix;
 }
@@ -119,7 +119,6 @@ int64_t getNumberOfWays(
     const std::vector<std::vector<int64_t>>& matrix,
     const int64_t amountOfSteps){
 
-    int n = matrix.size();
     std::vector<std::vector<int64_t>> answMatrix =
             powerMatrix(matrix, amountOfSteps);
 
