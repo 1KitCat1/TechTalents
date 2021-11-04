@@ -63,7 +63,8 @@ std::vector<std::vector<int64_t>> multiplyMatrices(
     for (int i = 0; i < matrixLeft.size(); i++) {
         for (int j = 0; j < matrixRight[0].size(); j++) {
             for (int k = 0; k < matrixLeft[0].size(); k++) {
-                answerMatrix[i][j] += (matrixLeft[i][k] * matrixRight[k][j]) % MODULUS;
+                answerMatrix[i][j] +=
+                    (matrixLeft[i][k] * matrixRight[k][j]) % MODULUS;
                 answerMatrix[i][j] %= MODULUS;
             }
         }
@@ -88,7 +89,7 @@ std::vector<std::vector<int64_t>> powerMatrix(
 
     if (exponent < 0) {
         throw std::invalid_argument(
-            "This method is NOT designed to power matrix into negative exponent");
+            "Exponent can't be less than 0");
     }
 
 
