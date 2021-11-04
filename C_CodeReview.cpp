@@ -120,7 +120,7 @@ int64_t getNumberOfWays(
     const int64_t amountOfSteps){
 
     const std::vector<std::vector<int64_t>> answerMatrix =
-            powerMatrix(matrix, amountOfSteps);
+        powerMatrix(matrix, amountOfSteps);
 
     int answer = 0;
     for (int index = 0; index < matrix.size(); index++) {
@@ -139,7 +139,7 @@ signed main() {
     const InputData input = inputRead(std::cin);
 
     const int64_t result =
-            getNumberOfWays(input.matrix, input.amountOfSteps);
+        getNumberOfWays(input.matrix, input.amountOfSteps);
     writeAnswer(std::cout, result);
 
     return 0;
