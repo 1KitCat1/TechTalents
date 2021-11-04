@@ -3,7 +3,7 @@
 
 constexpr int64_t MODULUS = 1000000007;
 
-const int indexShift = 1;
+const int INDEXSHIFT = 1;
 
 struct InputData {
     int64_t amountOfSteps;
@@ -22,7 +22,7 @@ InputData inputRead(std::istream& in){
         int from;
         int to;
         in >> from >> to;
-        input.matrix[from-indexShift][to-indexShift]++;
+        input.matrix[from-INDEXSHIFT][to-INDEXSHIFT]++;
     }
     return input;
 }
@@ -105,11 +105,11 @@ std::vector<std::vector<int64_t>> powerMatrix(
 
     std::vector<std::vector<int64_t>> answerMatrix;
     if (exponent % 2 == 0) {
-        answerMatrix = powerMatrix(matrix, exponent/2);
+        answerMatrix = powerMatrix(matrix, exponent / 2);
 
         answerMatrix = multiplyMatrices(answerMatrix, answerMatrix);
     } else {
-        answerMatrix = powerMatrix(matrix, exponent-1);
+        answerMatrix = powerMatrix(matrix, exponent - 1);
         answerMatrix = multiplyMatrices(answerMatrix, matrix);
     }
     return answerMatrix;
