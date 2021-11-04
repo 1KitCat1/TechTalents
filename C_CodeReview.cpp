@@ -33,7 +33,7 @@ void writeAnswer(std::ostream& out, int64_t result) {
 
 std::vector<std::vector<int64_t>> multiplyMatrices(
     const std::vector<std::vector<int64_t>>& matrixLeft,
-    const std::vector<std::vector<int64_t>>& matrixRight){
+    const std::vector<std::vector<int64_t>>& matrixRight) {
 
     if (matrixLeft.size() == 0 || matrixRight.size() == 0) {
         throw std::invalid_argument("Matrix is empty");
