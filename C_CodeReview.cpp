@@ -119,12 +119,12 @@ int64_t getNumberOfWays(
     const std::vector<std::vector<int64_t>>& matrix,
     const int64_t amountOfSteps){
 
-    std::vector<std::vector<int64_t>> answMatrix =
+    std::vector<std::vector<int64_t>> answerMatrix =
             powerMatrix(matrix, amountOfSteps);
 
     int answer = 0;
     for (int index = 0; index < matrix.size(); index++) {
-        answer += answMatrix[0][index];
+        answer += answerMatrix[0][index];
         answer %= MODULUS;
     }
     return answer;
