@@ -119,7 +119,7 @@ int64_t getNumberOfWays(
     const std::vector<std::vector<int64_t>>& matrix,
     const int64_t amountOfSteps){
 
-    std::vector<std::vector<int64_t>> answerMatrix =
+    const std::vector<std::vector<int64_t>> answerMatrix =
             powerMatrix(matrix, amountOfSteps);
 
     int answer = 0;
