@@ -12,11 +12,11 @@ struct InputData {
 
 InputData inputRead(std::istream& in){
     InputData  input;
-    int ampuntOfCells, amountOfTunnels, amountOfSteps;
-    std::cin >> ampuntOfCells >> amountOfTunnels >> amountOfSteps;
+    int amountOfCells, amountOfTunnels, amountOfSteps;
+    std::cin >> amountOfCells >> amountOfTunnels >> amountOfSteps;
     input.amountOfSteps = amountOfSteps;
     input.matrix = std::vector<std::vector<int64_t>>
-                    (ampuntOfCells, std::vector<int64_t>(ampuntOfCells));
+                    (amountOfCells, std::vector<int64_t>(amountOfCells));
 
     for (int i = 0; i < amountOfTunnels; i++) {
         int from;
@@ -82,7 +82,7 @@ std::vector<std::vector<int64_t>> powerMatrix(
     for (int index = 1; index < matrix.size(); index++) {
         if (matrix[index].size() != matrix[0].size()) {
             throw std::invalid_argument(
-                "Vector which represent matrix is NOT rectangular");
+                "Vector which represent matrix is NOT square");
         }
     }
 
