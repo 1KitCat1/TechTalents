@@ -15,8 +15,8 @@ InputData inputRead(std::istream& in){
     int amountOfCells, amountOfTunnels, amountOfSteps;
     std::cin >> amountOfCells >> amountOfTunnels >> amountOfSteps;
     input.amountOfSteps = amountOfSteps;
-    input.matrix = std::vector<std::vector<int64_t>>
-                    (amountOfCells, std::vector<int64_t>(amountOfCells));
+    input.matrix = std::vector<std::vector<int64_t>>(
+        amountOfCells, std::vector<int64_t>(amountOfCells));
 
     for (int i = 0; i < amountOfTunnels; i++) {
         int from;
