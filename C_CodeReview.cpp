@@ -3,6 +3,8 @@
 
 constexpr int64_t MODULUS = 1000000007;
 
+const int indexShift = 1;
+
 struct InputData {
     int64_t amountOfSteps;
     std::vector<std::vector<int64_t>> matrix;
@@ -10,17 +12,17 @@ struct InputData {
 
 InputData inputRead(std::istream& in){
     InputData  input;
-    int n, m, k;
-    std::cin >> n >> m >> k;
-    input.amountOfSteps = k;
+    int ampuntOfCells, amountOfTunnels, amountOfSteps;
+    std::cin >> ampuntOfCells >> amountOfTunnels >> amountOfSteps;
+    input.amountOfSteps = amountOfSteps;
     input.matrix = std::vector<std::vector<int64_t>>
-                    (n, std::vector<int64_t>(n));
+                    (ampuntOfCells, std::vector<int64_t>(ampuntOfCells));
 
-    for (int i = 0; i < m; i++) {
+    for (int i = 0; i < amountOfTunnels; i++) {
         int from;
         int to;
         in >> from >> to;
-        input.matrix[from-1][to-1]++;
+        input.matrix[from-indexShift][to-indexShift]++;
     }
     return input;
 }
@@ -44,7 +46,7 @@ std::vector<std::vector<int64_t>> multiplyMatrices(
         }
     }
     for (int index = 1; index < matrixRight.size(); index++) {
-        if (matrixLeft[index].size() != matrixRight[0].size()) {
+        if (matrixRight[index].size() != matrixRight[0].size()) {
             throw std::invalid_argument(
                 "Vector which represent matrix is NOT rectangular");
         }
@@ -57,8 +59,6 @@ std::vector<std::vector<int64_t>> multiplyMatrices(
 
     std::vector<std::vector<int64_t>> answ(matrixLeft.size(),
         std::vector<int64_t>(matrixRight[0].size(), 0));
-
-
 
     for (int i = 0; i < matrixLeft.size(); i++) {
         for (int j = 0; j < matrixRight[0].size(); j++) {
