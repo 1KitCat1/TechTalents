@@ -10,7 +10,7 @@ struct InputData {
     std::vector<std::vector<int64_t>> matrix;
 };
 
-InputData inputRead(std::istream& in){
+InputData inputRead(std::istream& in) {
     InputData  input;
     int amountOfCells, amountOfTunnels, amountOfSteps;
     std::cin >> amountOfCells >> amountOfTunnels >> amountOfSteps;
@@ -27,7 +27,7 @@ InputData inputRead(std::istream& in){
     return input;
 }
 
-void writeAnswer(std::ostream& out, int64_t result){
+void writeAnswer(std::ostream& out, int64_t result) {
     out << result << std::endl;
 }
 
@@ -117,7 +117,7 @@ std::vector<std::vector<int64_t>> powerMatrix(
 
 int64_t getNumberOfWays(
     const std::vector<std::vector<int64_t>>& matrix,
-    const int64_t amountOfSteps){
+    const int64_t amountOfSteps) {
 
     const std::vector<std::vector<int64_t>> answerMatrix =
         powerMatrix(matrix, amountOfSteps);
