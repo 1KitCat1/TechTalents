@@ -3,7 +3,7 @@
 
 constexpr int64_t MODULUS = 1000000007;
 
-const int INDEXSHIFT = 1;
+const int INDEX_SHIFT = 1;
 
 struct InputData {
     int64_t amountOfSteps;
@@ -22,7 +22,7 @@ InputData inputRead(std::istream& in) {
         int from;
         int to;
         in >> from >> to;
-        input.matrix[from-INDEXSHIFT][to-INDEXSHIFT]++;
+        input.matrix[from-INDEX_SHIFT][to-INDEX_SHIFT]++;
     }
     return input;
 }
