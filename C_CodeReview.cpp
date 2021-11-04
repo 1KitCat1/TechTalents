@@ -11,7 +11,7 @@ struct InputData {
 };
 
 InputData inputRead(std::istream& in) {
-    InputData  input;
+    InputData input;
     int amountOfCells, amountOfTunnels, amountOfSteps;
     std::cin >> amountOfCells >> amountOfTunnels >> amountOfSteps;
     input.amountOfSteps = amountOfSteps;
@@ -22,7 +22,7 @@ InputData inputRead(std::istream& in) {
         int from;
         int to;
         in >> from >> to;
-        input.matrix[from-INDEX_SHIFT][to-INDEX_SHIFT]++;
+        input.matrix[from - INDEX_SHIFT][to - INDEX_SHIFT]++;
     }
     return input;
 }
