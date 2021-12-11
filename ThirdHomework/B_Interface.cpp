@@ -3,18 +3,19 @@
 #include <algorithm>
 #include <vector>
 
-struct InputData{
+struct InputData {
     int amountOfNodes, amountOfEdges;
     std::vector<int> firstNode;
     std::vector<int> secondNode;
     std::vector<int> deltaBetweenNodes; 
 };
-struct OutputData{
+
+struct OutputData {
     bool problemVerdict;
     std::vector<int> verdictData;
 };
 
-class DisjointSet{
+class DisjointSet {
     private:
         std::vector<int> parent;
         std::vector<int> deltaFromParent;
