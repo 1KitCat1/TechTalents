@@ -11,7 +11,7 @@ struct InputData {
 };
 
 struct OutputData {
-    bool problemVerdict;
+    bool haveWeFind;
     std::vector<int> verdictData;
 };
 
@@ -32,20 +32,20 @@ class DisjointSet {
 
     int getDeltaFromParent(const int node);
 
-    std::vector<int> getAnswer();
+    std::vector<int> getAmountOfGold();
 };
 
-OutputData countAmountInBarrels(const InputData& input);
+OutputData countCoinsAmount(const InputData& input);
 
-InputData inputRead(std::istream& in);
+InputData readInfoCoinsDistribution(std::istream& in);
 
-void writeAnswer(std::ostream& out, const OutputData& outData);
+void writeCoinsDistribution(std::ostream& out, const OutputData& outputData);
 
 
 int main() {
-    const InputData input = inputRead(std::cin);
-    const OutputData result = countAmountInBarrels(input);
-    writeAnswer(std::cout, result);
+    const InputData distribution = readInfoCoinsDistribution(std::cin);
+    const OutputData result = countCoinsAmount(distribution);
+    writeCoinsDistribution(std::cout, result);
 
     return 0;
 }
