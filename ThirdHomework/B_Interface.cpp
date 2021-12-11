@@ -11,8 +11,8 @@ struct InputData {
 };
 
 struct OutputData {
-    bool haveWeFind;
-    std::vector<int> verdictData;
+    bool couldDistribute;
+    std::vector<int> coinsDistribution;
 };
 
 class DisjointSet {
@@ -26,9 +26,9 @@ class DisjointSet {
  public:
     DisjointSet(const int amountOfNodes);
 
-    void join(const int firstNode, const int secondNode, const int deltaBetweenNodes);
+    bool join(const int firstNode, const int secondNode, const int deltaBetweenNodes);
 
-    bool areNodesInSameSet(const int firstNode, const int secondNode);
+    bool areNodesInDifferentSet(const int firstNode, const int secondNode);
 
     int getDeltaFromParent(const int node);
 
@@ -37,13 +37,13 @@ class DisjointSet {
 
 OutputData countCoinsAmount(const InputData& input);
 
-InputData readInfoCoinsDistribution(std::istream& in);
+InputData readCoinsDistributionData(std::istream& in);
 
 void writeCoinsDistribution(std::ostream& out, const OutputData& outputData);
 
 
 int main() {
-    const InputData distribution = readInfoCoinsDistribution(std::cin);
+    const InputData distribution = readCoinsDistributionData(std::cin);
     const OutputData result = countCoinsAmount(distribution);
     writeCoinsDistribution(std::cout, result);
 
