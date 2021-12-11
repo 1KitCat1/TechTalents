@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <utility>
+#include <algorithm>
+#include <vector>
 
 struct InputData{
     int amountOfNodes, amountOfEdges;
