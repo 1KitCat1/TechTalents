@@ -23,10 +23,15 @@ class DisjointSet {
 
  public:
     DisjointSet(const int amountOfNodes);
+
     void join(const int firstNode, const int secondNode, const int deltaBetweenNodes);
+
     int findParent(const int node);
+
     bool check(const int firstNode, const int secondNode);
+
     int getDeltaFromParent(const int node);
+    
     std::vector<int> getAnswer();
 };
 
@@ -37,7 +42,7 @@ InputData inputRead(std::istream& in);
 void writeAnswer(std::ostream& out, const OutputData& outData);
 
 
-signed main() {
+int main() {
     const InputData input = inputRead(std::cin);
     const OutputData result = countAmountInBarrels(input);
     writeAnswer(std::cout, result);
