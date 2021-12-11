@@ -1,35 +1,42 @@
 #include <bits/stdc++.h>
 
 struct InputData{
-	int amountOfNodes, amountOfEdges;
-	std::vector<int> firstNode;
-	std::vector<int> secondNode;
-	std::vector<int> deltaBetweenNodes;	
+    int amountOfNodes, amountOfEdges;
+    std::vector<int> firstNode;
+    std::vector<int> secondNode;
+    std::vector<int> deltaBetweenNodes; 
+};
+struct OutputData{
+    bool problemVerdict;
+    std::vector<int> verdictData;
 };
 
-struct DisjointSet{
- 	std::vector<int> parent;
- 	std::vector<int> deltaFromParent;
- 	std::vector<int> parentValues;
+class DisjointSet{
+    private:
+        std::vector<int> parent;
+        std::vector<int> deltaFromParent;
+        std::vector<int> parentValues;
 
- 	DisjointSet(int n);
- 	void join(int firstNode, int secondNode, int deltaBetweenNodes);
- 	int findParent(int node);
- 	bool check(int firstNode, int secondNode);
- 	std::vector<int> getAnswer();
+    public:
+        DisjointSet(const int amountOfNodes);
+        void join(const int firstNode, const int secondNode, const int deltaBetweenNodes);
+        int findParent(const int node);
+        bool check(const int firstNode, const int secondNode);
+        int getDeltaFromParent(const int node);
+        std::vector<int> getAnswer();
 };
 
-std::pair<bool, std::vector<int>> countAmountInBarrels(const InputData& input);
+OutputData countAmountInBarrels(const InputData& input);
 
 InputData inputRead(std::istream& in);
 
-void writeAnswer(std::ostream& out, const std::pair<bool, std::vector<int>>& outData);
+void writeAnswer(std::ostream& out, const OutputData& outData);
 
 
 signed main() {
-	const InputData input = inputRead(std::cin);
-    const std::pair<bool, std::vector<int>> result = countAmountInBarrels(input);
+    const InputData input = inputRead(std::cin);
+    const OutputData result = countAmountInBarrels(input);
     writeAnswer(std::cout, result);
 
-	return 0;
+    return 0;
 }
