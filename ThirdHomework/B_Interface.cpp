@@ -16,18 +16,18 @@ struct OutputData {
 };
 
 class DisjointSet {
-    private:
-        std::vector<int> parent;
-        std::vector<int> deltaFromParent;
-        std::vector<int> parentValues;
+ private:
+     std::vector<int> parent;
+     std::vector<int> deltaFromParent;
+     std::vector<int> parentValues;
 
-    public:
-        DisjointSet(const int amountOfNodes);
-        void join(const int firstNode, const int secondNode, const int deltaBetweenNodes);
-        int findParent(const int node);
-        bool check(const int firstNode, const int secondNode);
-        int getDeltaFromParent(const int node);
-        std::vector<int> getAnswer();
+ public:
+    DisjointSet(const int amountOfNodes);
+    void join(const int firstNode, const int secondNode, const int deltaBetweenNodes);
+    int findParent(const int node);
+    bool check(const int firstNode, const int secondNode);
+    int getDeltaFromParent(const int node);
+    std::vector<int> getAnswer();
 };
 
 OutputData countAmountInBarrels(const InputData& input);
