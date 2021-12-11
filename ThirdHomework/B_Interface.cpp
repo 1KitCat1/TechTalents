@@ -21,17 +21,17 @@ class DisjointSet {
      std::vector<int> deltaFromParent;
      std::vector<int> parentValues;
 
+     int findParent(const int node);
+
  public:
     DisjointSet(const int amountOfNodes);
 
     void join(const int firstNode, const int secondNode, const int deltaBetweenNodes);
 
-    int findParent(const int node);
-
-    bool check(const int firstNode, const int secondNode);
+    bool areNodesInSameSet(const int firstNode, const int secondNode);
 
     int getDeltaFromParent(const int node);
-    
+
     std::vector<int> getAnswer();
 };
 
