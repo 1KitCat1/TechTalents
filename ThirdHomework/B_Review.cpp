@@ -7,7 +7,7 @@ struct InputData {
     int amountOfNodes, amountOfEdges;
     std::vector<int> firstNode;
     std::vector<int> secondNode;
-    std::vector<int> deltaBetweenNodes; 
+    std::vector<int> deltaBetweenNodes;
 };
 
 struct OutputData {
@@ -22,117 +22,131 @@ class DisjointSet {
      std::vector<int> deltaFromParent;
      std::vector<int> parentValues;
 
-     int findParent(const int node){
-        if (node == parent[node]) return node;
+     int findParent(const int node) {
+        if (node == parent[node]) {
+            return node;
+        }
         int newParent = findParent(parent[node]);
         int newDelta = deltaFromParent[parent[node]] + deltaFromParent[node];
+
         parent[node] = newParent;
         deltaFromParent[node] = newDelta;
-        parentValues[newParent] = 
+        parentValues[newParent] =
             std::max(parentValues[newParent], -1*newDelta);
         return parent[node];
      }
 
  public:
-    explicit DisjointSet(const int amountOfNodes){
+    explicit DisjointSet(const int amountOfNodes) {
         parent = std::vector<int>(amountOfNodes);
         deltaFromParent = std::vector<int>(amountOfNodes, 0);
         parentValues = std::vector<int>(amountOfNodes, 0);
-        for (int i = 0; i < amountOfNodes; i++) parent[i] = i;
+
+        for (int index = 0; index < amountOfNodes; index++) {
+            parent[index] = index;
+        }
     }
 
-    bool join(int firstNode, int secondNode, int deltaBetweenNodes){
-        int parentA = findParent(firstNode);
-        int parentB = findParent(secondNode);
-        if (parentB > parentA){
+    bool join(int firstNode, int secondNode, int deltaBetweenNodes) {
+        int parentFirstNode = findParent(firstNode);
+        int parentSecondNode = findParent(secondNode);
+
+        if (parentSecondNode > parentFirstNode) {
             std::swap(firstNode, secondNode);
-            std::swap(parentA, parentB);
+            std::swap(parentFirstNode, parentSecondNode);
             deltaBetweenNodes *= -1;
         }
-        int deltaA = deltaFromParent[firstNode];
-        int deltaB = deltaFromParent[secondNode];
-        int deltaXY = deltaB - deltaA + deltaBetweenNodes; 
-        parent[parentA] = parentB;
-        parentValues[parentB] = std::max(parentValues[parentB],
-            -1*(deltaXY-parentValues[parentA]));
-        deltaFromParent[parentA] = deltaXY;
-        if (parentValues[0] != 0){
+        int deltaFromParentFirstNode = deltaFromParent[firstNode];
+        int deltaFromParentSecondNode = deltaFromParent[secondNode];
+        int deltaBetweenParents = deltaFromParentSecondNode -
+         deltaFromParentFirstNode + deltaBetweenNodes;
+
+        parent[parentFirstNode] = parentSecondNode;
+
+        parentValues[parentSecondNode] = std::max(parentValues[parentSecondNode],
+            (-1)*(deltaBetweenParents-parentValues[parentFirstNode]));
+        deltaFromParent[parentFirstNode] = deltaBetweenParents;
+
+        if (parentValues[0] != 0) {
             return false;
         }
         return true;
     }
 
-    bool areNodesInDifferentSet(const int firstNode, const int secondNode){
+    bool areNodesInDifferentSet(const int firstNode, const int secondNode) {
         return findParent(firstNode) != findParent(secondNode);
     }
 
-    int getDeltaFromParent(const int node){
+    int getDeltaFromParent(const int node) {
         return deltaFromParent[node];
     }
 
-    std::vector<int> getCoinsDistribution(){
-        std::vector<int> answ;
-        for (int i = 0; i < parent.size(); i++) {
-            int p = findParent(i);
-            int value = parentValues[p] + deltaFromParent[i];
-            answ.push_back(value);
+    std::vector<int> getCoinsDistribution() {
+        std::vector<int> answer;
+        for (int index = 0; index < parent.size(); index++) {
+            int parentOfNode = findParent(index);
+            int value = parentValues[parentOfNode] + deltaFromParent[index];
+            answer.push_back(value);
         }
-        return answ;
+        return answer;
     }
 };
 
-OutputData countCoinsAmount(const InputData& input){
+OutputData countCoinsAmount(const InputData& input) {
     OutputData out;
-    DisjointSet ds(input.amountOfNodes);
-    for (int i = 0; i < input.amountOfEdges; i++){
-        int a = input.firstNode[i], b = input.secondNode[i], 
-            delta = input.deltaBetweenNodes[i];
-        if (ds.areNodesInDifferentSet(a, b)){
-            bool isGood = ds.join(a, b, delta);
-            if (!isGood){
+    DisjointSet disjointSet(input.amountOfNodes);
+    for (int index = 0; index < input.amountOfEdges; index++) {
+        int firstNode = input.firstNode[index], secondNode = input.secondNode[index],
+            deltaBetweenNodes = input.deltaBetweenNodes[index];
+            
+        if (disjointSet.areNodesInDifferentSet(firstNode, secondNode)) {
+            bool noErrorOccured =
+             disjointSet.join(firstNode, secondNode, deltaBetweenNodes);
+
+            if (noErrorOccured != true) {
                 out.couldDistribute = false;
-                out.errorOccuredOn = i+1;
+                out.errorOccuredOn = index+1;
                 return out;
             }
         } else {
-            int deltaA = ds.getDeltaFromParent(a);
-            int deltaB = ds.getDeltaFromParent(b);
-            if (deltaA != deltaB + delta){
+            int deltaA = disjointSet.getDeltaFromParent(firstNode);
+            int deltaB = disjointSet.getDeltaFromParent(secondNode);
+            if (deltaA != deltaB + deltaBetweenNodes) {
                 out.couldDistribute = false;
-                out.errorOccuredOn = i+1;
+                out.errorOccuredOn = index+1;
                 return out;
             }
         }
     }
-    out.coinsDistribution = ds.getCoinsDistribution();
+    out.coinsDistribution = disjointSet.getCoinsDistribution();
     out.couldDistribute = true;
     return out;
 }
 
-InputData readInfoCoinsDistribution(std::istream& in){
+InputData readInfoCoinsDistribution(std::istream& in) {
     InputData input;
     in >> input.amountOfNodes >> input.amountOfEdges;
     input.firstNode = std::vector<int>(input.amountOfEdges);
     input.secondNode = std::vector<int>(input.amountOfEdges);
     input.deltaBetweenNodes = std::vector<int>(input.amountOfEdges);
 
-    for (int i = 0; i < input.amountOfEdges; i++){
-        int a, b, c;
-        in >> a >> b >> c;
-        input.firstNode[i] = a;
-        input.secondNode[i] = b;
-        input.deltaBetweenNodes[i] = c;
+    for (int index = 0; index < input.amountOfEdges; index++) {
+        int firstNode, secondNode, deltaBetweenNodes;
+        in >> firstNode >> secondNode >> deltaBetweenNodes;
+        input.firstNode[index] = firstNode;
+        input.secondNode[index] = secondNode;
+        input.deltaBetweenNodes[index] = deltaBetweenNodes;
     }
     return input;
 }
 
-void writeCoinsDistribution(std::ostream& out, const OutputData& outputData){
-    if (outputData.couldDistribute){
+void writeCoinsDistribution(std::ostream& out, const OutputData& outputData) {
+    if (outputData.couldDistribute) {
         out << "YES\n";
-        for (int coinsInChest : outputData.coinsDistribution){
+        for (int coinsInChest : outputData.coinsDistribution) {
             out << coinsInChest << ' ';
         }
-    } else{
+    } else {
         out << "NO\n";
         out << outputData.errorOccuredOn;
     }
