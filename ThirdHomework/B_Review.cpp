@@ -23,6 +23,12 @@ class DisjointSet {
      std::vector<int> parentValues;
 
      int findParent(const int node) {
+        if (parent.size() == 0) {
+            throw std::invalid_argument("Empty parent array");
+        }
+        if (node < 0 || node >= parent.size()) {
+            throw std::invalid_argument("No parent for this node");
+        }
         if (node == parent[node]) {
             return node;
         }
@@ -50,7 +56,7 @@ class DisjointSet {
     bool join(int firstNode, int secondNode, int deltaBetweenNodes) {
         if(parentValues.size() == 0){
             throw std::invalid_argument(
-            "Empty parent values");
+                "Empty parent values");
         }
         int parentFirstNode = findParent(firstNode);
         int parentSecondNode = findParent(secondNode);
@@ -106,9 +112,9 @@ OutputData countCoinsAmount(const InputData& input) {
     OutputData out;
     DisjointSet disjointSet(input.amountOfNodes);
     for (int index = 0; index < input.amountOfEdges; ++index) {
-        int firstNode = input.firstNode[index],
-            secondNode = input.secondNode[index],
-            deltaBetweenNodes = input.deltaBetweenNodes[index];
+        const int firstNode = input.firstNode[index];
+        const int secondNode = input.secondNode[index];
+        const int deltaBetweenNodes = input.deltaBetweenNodes[index];
 
         if (disjointSet.areNodesInDifferentSet(firstNode, secondNode)) {
             const bool noErrorOccured = disjointSet.join(
