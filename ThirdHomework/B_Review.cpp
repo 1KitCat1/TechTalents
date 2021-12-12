@@ -33,7 +33,8 @@ class DisjointSet {
             return node;
         }
         const int newParent = findParent(parent[node]);
-        const int newDelta = deltaFromParent[parent[node]] + deltaFromParent[node];
+        const int newDelta = deltaFromParent[parent[node]]
+         + deltaFromParent[node];
 
         parent[node] = newParent;
         deltaFromParent[node] = newDelta;
@@ -54,7 +55,7 @@ class DisjointSet {
     }
 
     bool join(int firstNode, int secondNode, int deltaBetweenNodes) {
-        if(parentValues.size() == 0){
+        if (parentValues.size() == 0) {
             throw std::invalid_argument(
                 "Empty parent values");
         }
@@ -81,7 +82,7 @@ class DisjointSet {
         if (parentValues[0] != 0) {
             return false;
         }
-        return true;   
+        return true;
     }
 
     bool areNodesInDifferentSet(const int firstNode, const int secondNode) {
@@ -98,7 +99,8 @@ class DisjointSet {
         std::vector<int> answer;
         for (int index = 0; index < parent.size(); ++index) {
             const int parentOfNode = findParent(index);
-            const int value = parentValues[parentOfNode] + deltaFromParent[index];
+            const int value = parentValues[parentOfNode]
+             + deltaFromParent[index];
             answer.push_back(value);
         }
         return answer;
