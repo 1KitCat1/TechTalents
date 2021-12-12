@@ -32,8 +32,8 @@ class DisjointSet {
         if (node == parent[node]) {
             return node;
         }
-        int newParent = findParent(parent[node]);
-        int newDelta = deltaFromParent[parent[node]] + deltaFromParent[node];
+        const int newParent = findParent(parent[node]);
+        const int newDelta = deltaFromParent[parent[node]] + deltaFromParent[node];
 
         parent[node] = newParent;
         deltaFromParent[node] = newDelta;
@@ -69,7 +69,7 @@ class DisjointSet {
         const int deltaFromParentFirst = deltaFromParent[firstNode];
         const int deltaFromParentSecond = deltaFromParent[secondNode];
         const int deltaBetweenParents = deltaFromParentSecond -
-         deltaFromParentFirst + deltaBetweenNodes;
+            deltaFromParentFirst + deltaBetweenNodes;
 
         parent[parentFirstNode] = parentSecondNode;
 
@@ -78,13 +78,10 @@ class DisjointSet {
             (-1) * (deltaBetweenParents - parentValues[parentFirstNode]));
         deltaFromParent[parentFirstNode] = deltaBetweenParents;
 
-        
         if (parentValues[0] != 0) {
             return false;
         }
-        return true;
-        
-        
+        return true;   
     }
 
     bool areNodesInDifferentSet(const int firstNode, const int secondNode) {
