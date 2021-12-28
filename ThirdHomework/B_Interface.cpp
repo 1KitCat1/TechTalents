@@ -13,6 +13,7 @@ struct InputData {
 struct OutputData {
     bool couldDistribute;
     std::vector<int> coinsDistribution;
+    int errorOccuredOn;
 };
 
 class DisjointSet {
@@ -32,7 +33,7 @@ class DisjointSet {
 
     int getDeltaFromParent(const int node);
 
-    std::vector<int> getAmountOfGold();
+    std::vector<int> getCoinsDistribution();
 };
 
 OutputData countCoinsAmount(const InputData& input);
