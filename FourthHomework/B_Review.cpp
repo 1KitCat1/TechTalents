@@ -1,37 +1,43 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 /*Author: _KitCat_*/
 /*Riabtsev Denis*/
 
 const int NEGATIVE_INFINITY = -2100000000;
 
 class SegmentTree2D{
- private:    
+ private:
     int amountOfRows, amountOfColumns;
     std::vector<std::vector<int>> tree;
-    
+
  public:
     SegmentTree2D(int amountOfRows, int amountOfColumns){
         this->amountOfRows = amountOfRows;
         this->amountOfColumns = amountOfColumns;
         int maximalSide = std::max(amountOfRows, amountOfColumns);
         int treeSize = 1;
-        while(treeSize <= maximalSide){
+        while (treeSize <= maximalSide){
             treeSize *= 2;
         }
         treeSize *= 2;
-        treeSize += 1;
-        // std::cout << treeSize << std::endl;
+        ++treeSize;
         tree = std::vector<std::vector<int>>
             (treeSize, std::vector<int>(treeSize));
     }
-    
+
     void buildColumns(const std::vector<std::vector<int>>& matrix,
         const int vertexRow, const int leftRow, const int rightRow,
         const int vertexColumn, const int leftColumn, const int rightColumn){
-
         if (leftColumn == rightColumn){
             if (leftRow == rightRow){
+                if(leftRow < 0 || leftRow >= matrix.size()){
+                    throw std::invalid_argument("Index out of matrix range");
+                }
+                if(rightRow < 0 || !matrix.size()
+                    || rightRow >= matrix[0].size()){
+                    throw std::invalid_argument("Index out of matrix range");
+                }
                 tree[vertexRow][vertexColumn] = matrix[leftRow][leftColumn];
             } else {
                 tree[vertexRow][vertexColumn] = std::max(
@@ -80,13 +86,12 @@ class SegmentTree2D{
                 currentRightColumn, std::max(
                     leftColumn,
                     currentMiddleColumn+1),
-                    rightColumn)
-            );
+                    rightColumn));
     }
 
     int maxRows(const int vertexRow, const int currentLeftRow,
         const int currentRightRow, const int leftRow, const int rightRow,
-        const int leftColumn, const int rightColumn){
+        const int leftColumn, const int rightColumn) {
         if (leftRow > rightRow) return NEGATIVE_INFINITY;
         if (leftRow == currentLeftRow && currentRightRow == rightRow)
             return maxColumns(vertexRow, 1, 0, amountOfColumns-1,
@@ -105,7 +110,7 @@ class SegmentTree2D{
     void updateColumns(const int vertexRow, const int leftRow,
         const int rightRow, const int vertexColumn, const int leftColumn,
         const int rightColumn, const int rowUpdating,
-        const int columnUpdating, const int value){
+        const int columnUpdating, const int value) {
         if (leftColumn == rightColumn) {
             if (leftRow == rightRow){
                 tree[vertexRow][vertexColumn] = value;
@@ -118,8 +123,9 @@ class SegmentTree2D{
         } else {
             int middleColumn = (leftColumn + rightColumn) / 2;
             if (columnUpdating <= middleColumn) {
-                updateColumns(vertexRow, leftRow, rightRow, vertexColumn*2,
-                    leftColumn, middleColumn, rowUpdating, columnUpdating, value);
+                updateColumns(vertexRow, leftRow, rightRow, vertexColumn * 2,
+                    leftColumn, middleColumn, rowUpdating, columnUpdating,
+                    value);
             } else {
                 updateColumns(vertexRow, leftRow, rightRow, vertexColumn*2+1,
                     middleColumn+1, rightColumn, rowUpdating,
@@ -130,9 +136,9 @@ class SegmentTree2D{
                 tree[vertexRow][vertexColumn*2+1]);
         }
     }
-     
+
     void updateRows(const int vertexRow, const int leftRow, const int rightRow,
-        const int rowUpdating, const int columnUpdating, const int value){
+        const int rowUpdating, const int columnUpdating, const int value) {
             if (leftRow != rightRow) {
             int mx = (leftRow + rightRow) / 2;
             if (rowUpdating <= mx) {
@@ -148,7 +154,8 @@ class SegmentTree2D{
     }
 };
 
-struct Query{
+class Query{
+ public:
     bool type;
     int fromRow;
     int fromColumn;
@@ -170,7 +177,6 @@ struct Query{
         this->value = value;
         this->type = 1;
     }
-
 };
 
 struct InputData {
@@ -235,7 +241,7 @@ std::vector<int> answerQueries(const InputData* inputData){
 }
 
 void writeAnswerQueries(std::ostream& out, const std::vector<int>& outputData){
-    for(auto value : outputData){
+    for (auto value : outputData){
         out << value << '\n';
     }
 }

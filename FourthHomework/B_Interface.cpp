@@ -38,7 +38,8 @@ class SegmentTree2D{
         const int rowUpdating, const int columnUpdating, const int value);
 };
 
-struct Query{
+class Query{
+ public:
     bool type;
     int fromRow;
     int fromColumn;
@@ -47,8 +48,9 @@ struct Query{
     int row;
     int column;
     int value;
-    Query(int fromRow, int toRow, int fromColumn, int toColumn);
-    Query(int row, int column, int value);
+    Query(const int fromRow, const int toRow,
+     const int fromColumn, const int toColumn);
+    Query(const int row, const int column, const int value);
 };
 
 struct InputData {
