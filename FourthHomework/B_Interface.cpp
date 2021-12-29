@@ -1,36 +1,36 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 /*Author: _KitCat_*/
 /*Riabtsev Denis*/
 
-#pragma GCC optimize("O3")
-
-// using namespace std;
+    
+const int NEGATIVE_INFINITY = -2100000000;
 
 class SegmentTree2D{
  private:    
     const int amountOfRows, amountOfColumns;
     std::vector<std::vector<int>> tree;
     std::vector<std::vector<int>> matrix;
-    const int NEGATIVE_INFINITE = -2100000000;
+    
  public:
     SegmentTree2D(int amountOfRows, int amountOfColumns);
     
-    void buildY(const int vertexX, const int leftX, const int rightX, const int vertexY, 
-        const int leftY, const int rightY);
+    void buildColumns(const int vertexRow, const int leftRow, const int rightRow,
+        const int vertexColumn, const int leftColumn, const int rightColumn);
 
-    void buildX(const int vertexX, const int leftX, const int rightX);
+    void buildRows(const int vertexRow, const int leftRow, const int rightRow);
 
-    int maxY(const int vertexX, const int vertexY, const int tLeftY, const int tRightY,
-        const int leftY, const int rightY);
+    int maxColumns(const int vertexRow, const int vertexColumn, const int currentLeftColumn,
+        const int currentRightColumn, const int leftColumn, const int rightColumn);
 
-    int maxX(const int vertexX, const int currentLeftX, const int currentRightX, const int leftX,
-        const int rightX, const int leftY, const int rightY);
+    int maxRows(const int vertexRow, const int currentLeftX, const int currentRightRow,
+        const int leftRow, const int rightRow, const int leftColumn, const int rightColumn);
 
-    void updateY(const int vertexX, const int leftX, const int rightX, const int vertexY,
-        const int leftY, const int rightY, const int x, const int y, const int value);
+    void updateColumns(const int vertexRow, const int leftRow, const int rightRow, const int vertexColumn,
+        const int leftColumn, const int rightColumn, const int rowUpdating, const int columnUpdating, const int value);
      
-    void updateX(const int vertexX, const int leftX, const int rightX, const int x,
-        const int y, const int value);
+    void updateRows(const int vertexRow, const int leftRow, const int rightRow, const int rowUpdating,
+        const int columnUpdating, const int value);
 };
 
 struct Query{
@@ -48,7 +48,7 @@ struct InputData{
     const int amountOfRows;
     const int amountOfColumns;
     const int amountOfQueries;
-    SegmentTree2D* segmentTree;
+    std::vector<std::vector<int>> matrix;
     std::vector<Query> queries;
 };
 
