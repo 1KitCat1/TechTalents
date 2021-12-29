@@ -74,7 +74,7 @@ signed main() {
 
     const InputData* inputData = readProblemData(std::cin);
 
-    std::vector<int> answer = answerQueries(inputData);
+    const std::vector<int> answer = answerQueries(inputData);
     writeAnswerQueries(std::cout, answer);
     return 0;
 }
