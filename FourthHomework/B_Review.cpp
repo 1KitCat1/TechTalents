@@ -5,7 +5,7 @@
 /*Riabtsev Denis*/
 
 const int NEGATIVE_INFINITY = -2100000000;
-
+const int SHIFT = 1;
 class SegmentTree2D {
  private:
     int amountOfRows, amountOfColumns;
@@ -215,13 +215,11 @@ InputData* readProblemData(std::istream& in) {
         if (type == '?') {
             int fromRow, toRow, fromColumn, toColumn;
             in >> fromRow >> toRow >> fromColumn >> toColumn;
-            --fromRow, --toRow, --fromColumn, --toColumn;
             input->queries.push_back(
                 new Query(fromRow, toRow, fromColumn, toColumn));
         } else {
             int row, column, value;
             in >> row >> column >> value;
-            --row, --column;
             input->queries.push_back(
                 new Query(row, column, value));
         }
@@ -237,13 +235,21 @@ std::vector<int> answerQueries(const InputData* inputData) {
     std::vector<int> answer;
     for (auto query : inputData->queries) {
         if (query->type) {
+            const int row = query->row - SHIFT;
+            const int column = query->column - SHIFT;
+            const int value = query->value;
             segmentTree.updateRows(
-                1, 0, (inputData->amountOfRows) - 1, query->row,
-                query->column, query->value);
+                1, 0, (inputData->amountOfRows) - 1, row,
+                column, value);
         } else {
+            const int fromRow = query->fromRow - SHIFT;
+            const int toRow = query->toRow - SHIFT;
+            const int fromColumn = query->fromColumn - SHIFT;
+            const int toColumn = query->toColumn - SHIFT;
+
             answer.push_back(segmentTree.maxRows(
-                1, 0, (inputData->amountOfRows) - 1, query->fromRow,
-                query->toRow, query->fromColumn, query->toColumn));
+                1, 0, (inputData->amountOfRows) - 1, fromRow,
+                toRow, fromColumn, toColumn));
         }
     }
     return answer;
