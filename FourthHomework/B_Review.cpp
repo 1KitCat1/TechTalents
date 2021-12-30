@@ -22,8 +22,8 @@ class SegmentTree2D {
         }
         treeSize *= 2;
         ++treeSize;
-        tree = std::vector<std::vector<int>>
-            (treeSize, std::vector<int>(treeSize));
+        tree = std::vector<std::vector<int>>(
+            treeSize, std::vector<int>(treeSize));
     }
 
     void buildColumns(const std::vector<std::vector<int>>& matrix,
@@ -45,7 +45,7 @@ class SegmentTree2D {
                     tree[vertexRow*2+1][vertexColumn]);
             }
         } else {
-            int middleColumn = (leftColumn + rightColumn) / 2;
+            const int middleColumn = (leftColumn + rightColumn) / 2;
             buildColumns(matrix, vertexRow, leftRow,
                 rightRow, vertexColumn * 2, leftColumn, middleColumn);
             buildColumns(matrix, vertexRow, leftRow,
@@ -69,27 +69,28 @@ class SegmentTree2D {
 
     int maxColumns(const int vertexRow, const int vertexColumn,
         const int currentLeftColumn, const int currentRightColumn,
-        const  int leftColumn, const  int rightColumn) {
+        const int leftColumn, const  int rightColumn) {
         if (leftColumn > rightColumn) {
             return NEGATIVE_INFINITY;
         }
-        if (leftColumn == currentLeftColumn
-         && currentRightColumn == rightColumn) {
+        if (leftColumn == currentLeftColumn &&
+            currentRightColumn == rightColumn) {
             return tree[vertexRow][vertexColumn];
         }
 
         const int currentMiddleColumn =
             (currentLeftColumn + currentRightColumn) / 2;
         const int maxLeftColumn = std::max(
-                    leftColumn,
-                    currentMiddleColumn + 1);
-        return std::max(
-            maxColumns(vertexRow, vertexColumn * 2, currentLeftColumn,
-                currentMiddleColumn, leftColumn,
-                std::min(rightColumn, currentMiddleColumn)),
-            maxColumns(vertexRow, vertexColumn * 2 + 1, currentMiddleColumn + 1,
-                currentRightColumn, maxLeftColumn,
-                    rightColumn));
+            leftColumn,
+            currentMiddleColumn + 1);
+        const int leftAnswer = maxColumns(
+            vertexRow, vertexColumn * 2, currentLeftColumn,
+            currentMiddleColumn, leftColumn,
+            std::min(rightColumn, currentMiddleColumn));
+        const int rightAnswer = maxColumns(
+            vertexRow, vertexColumn * 2 + 1, currentMiddleColumn + 1,
+            currentRightColumn, maxLeftColumn, rightColumn);
+        return std::max(leftAnswer, rightAnswer);
     }
 
     int maxRows(const int vertexRow, const int currentLeftRow,
@@ -104,14 +105,16 @@ class SegmentTree2D {
         }
 
         const int currentMiddleRow = (currentLeftRow + currentRightRow) / 2;
-        const int maxLeftRow = std::max(leftRow, currentMiddleRow + 1); 
-        return std::max(
-                    maxRows(vertexRow * 2, currentLeftRow, currentMiddleRow,
-                        leftRow, std::min(rightRow, currentMiddleRow),
-                        leftColumn, rightColumn),
-                    maxRows(vertexRow * 2 + 1, currentMiddleRow + 1,
-                        currentRightRow, maxLeftRow, rightRow,
-                        leftColumn, rightColumn));
+        const int maxLeftRow = std::max(leftRow, currentMiddleRow + 1);
+        const int leftAnswer = maxRows(
+            vertexRow * 2, currentLeftRow, currentMiddleRow,
+            leftRow, std::min(rightRow, currentMiddleRow),
+            leftColumn, rightColumn);
+        const int rightAnswer = maxRows(vertexRow * 2 + 1,
+            currentMiddleRow + 1,
+            currentRightRow, maxLeftRow, rightRow,
+            leftColumn, rightColumn);
+        return std::max(leftAnswer, rightAnswer);
     }
 
     void updateColumns(const int vertexRow, const int leftRow,
@@ -153,8 +156,8 @@ class SegmentTree2D {
                 updateRows(vertexRow * 2, leftRow, middleRow, rowUpdating,
                     columnUpdating, value);
             } else {
-                updateRows(vertexRow * 2 + 1, middleRow + 1, rightRow, rowUpdating,
-                    columnUpdating, value);
+                updateRows(vertexRow * 2 + 1, middleRow + 1, rightRow,
+                    rowUpdating, columnUpdating, value);
             }
         }
         updateColumns(vertexRow, leftRow, rightRow, 1, 0,
@@ -173,7 +176,7 @@ class Query{
     int column;
     int value;
     Query(const int fromRow, const int toRow,
-     const int fromColumn, const int toColumn) {
+          const int fromColumn, const int toColumn) {
         this->fromRow = fromRow;
         this->toRow = toRow;
         this->fromColumn = fromColumn;
@@ -188,6 +191,7 @@ class Query{
     }
 };
 
+
 struct InputData {
     int amountOfRows;
     int amountOfColumns;
@@ -196,7 +200,7 @@ struct InputData {
     std::vector<Query*> queries;
 };
 
-InputData* readProblemData(std::istream& in) {
+InputData readProblemData(std::istream& in) {
     InputData* input = new InputData();
     in >> input->amountOfRows >>
         input->amountOfColumns >> input->amountOfQueries;
@@ -224,22 +228,22 @@ InputData* readProblemData(std::istream& in) {
                 new Query(row, column, value));
         }
     }
-    return input;
+    return (*input);
 }
 
-std::vector<int> answerQueries(const InputData* inputData) {
+std::vector<int> answerQueries(const InputData inputData) {
     SegmentTree2D segmentTree(
-        inputData->amountOfRows, inputData->amountOfColumns);
+        inputData.amountOfRows, inputData.amountOfColumns);
     segmentTree.buildRows(
-        inputData->matrix, 1, 0, (inputData->amountOfRows) - 1);
+        inputData.matrix, 1, 0, (inputData.amountOfRows) - 1);
     std::vector<int> answer;
-    for (auto query : inputData->queries) {
+    for (auto query : inputData.queries) {
         if (query->type) {
             const int row = query->row - SHIFT;
             const int column = query->column - SHIFT;
             const int value = query->value;
             segmentTree.updateRows(
-                1, 0, (inputData->amountOfRows) - 1, row,
+                1, 0, (inputData.amountOfRows) - 1, row,
                 column, value);
         } else {
             const int fromRow = query->fromRow - SHIFT;
@@ -248,7 +252,7 @@ std::vector<int> answerQueries(const InputData* inputData) {
             const int toColumn = query->toColumn - SHIFT;
 
             answer.push_back(segmentTree.maxRows(
-                1, 0, (inputData->amountOfRows) - 1, fromRow,
+                1, 0, (inputData.amountOfRows) - 1, fromRow,
                 toRow, fromColumn, toColumn));
         }
     }
@@ -267,7 +271,7 @@ signed main() {
     std::cout.tie(0);
     std::ios_base::sync_with_stdio(0);
 
-    const InputData* inputData = readProblemData(std::cin);
+    const InputData inputData = readProblemData(std::cin);
 
     const std::vector<int> answer = answerQueries(inputData);
     writeAnswerQueries(std::cout, answer);
