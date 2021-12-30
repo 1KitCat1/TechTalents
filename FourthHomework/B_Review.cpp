@@ -15,7 +15,7 @@ class SegmentTree2D {
     SegmentTree2D(int amountOfRows, int amountOfColumns) {
         this->amountOfRows = amountOfRows;
         this->amountOfColumns = amountOfColumns;
-        int maximalSide = std::max(amountOfRows, amountOfColumns);
+        const int maximalSide = std::max(amountOfRows, amountOfColumns);
         int treeSize = 1;
         while (treeSize <= maximalSide) {
             treeSize *= 2;
@@ -59,7 +59,7 @@ class SegmentTree2D {
     void buildRows(const std::vector<std::vector<int>>& matrix,
          const int vertexRow, const int leftRow, const int rightRow) {
         if (leftRow != rightRow) {
-            int middleRow = (leftRow + rightRow) / 2;
+            const int middleRow = (leftRow + rightRow) / 2;
             buildRows(matrix, vertexRow * 2, leftRow, middleRow);
             buildRows(matrix, vertexRow * 2 + 1, middleRow + 1, rightRow);
         }
@@ -151,7 +151,7 @@ class SegmentTree2D {
     void updateRows(const int vertexRow, const int leftRow, const int rightRow,
         const int rowUpdating, const int columnUpdating, const int value) {
             if (leftRow != rightRow) {
-            int middleRow = (leftRow + rightRow) / 2;
+            const int middleRow = (leftRow + rightRow) / 2;
             if (rowUpdating <= middleRow) {
                 updateRows(vertexRow * 2, leftRow, middleRow, rowUpdating,
                     columnUpdating, value);
